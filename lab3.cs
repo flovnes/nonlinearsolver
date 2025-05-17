@@ -96,8 +96,8 @@ public class Lab3 {
         double eps = 1e-5;
         int maxIter = 20;
 
-        Console.WriteLine("Example:\n2*Pow(x1,3) + 2*Pow(x2,2) + 3*Pow(x3,2) + 4\n3*x1 + Pow(x2,3) + 8*x3 + 1000\n5*Pow(x1,2) + 8*x2 - 7*Pow(x3,2) - 4\n");
-        Console.WriteLine("Press Enter to use the example system, type a number of equations N to write a custom system:");
+        Console.WriteLine("\n\nExample:\n2*Pow(x1,3) + 2*Pow(x2,2) + 3*Pow(x3,2) + 4\n3*x1 + Pow(x2,3) + 8*x3 + 1000\n5*Pow(x1,2) + 8*x2 - 7*Pow(x3,2) - 4\n");
+        Console.WriteLine("press <Enter> to use the example system,\ntype the number of equations to input a system:");
         string input = Console.ReadLine();
 
         // 1. read and parse

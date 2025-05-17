@@ -72,6 +72,26 @@ public class Lab3 {
         return J;
     }
     
+    static bool CheckConvergence(Function[] equations, Vector<double> x) {
+        var J = EvalJ(equations, x);
+        double sum = 0;
+        double maxDeriv = 0;
+        
+        for (int i = 0; i < J.RowCount; i++) {
+            for (int j = 0; j < J.ColumnCount; j++) {
+                double absValue = Math.Abs(J[i, j]);
+                sum += absValue;
+                maxDeriv = Math.Max(maxDeriv, absValue);
+            }
+        }
+        
+        double threshold = 10 * J.RowCount * J.ColumnCount;
+        
+        Console.WriteLine($"convergence analysis: sum = {sum:F3} threshold = {threshold:F3}");
+        
+        return sum < threshold;
+    }
+
     static void Main() {
         double eps = 1e-5;
         int maxIter = 20;
@@ -80,19 +100,27 @@ public class Lab3 {
         Console.WriteLine("Press Enter to use the example system, type a number of equations N to write a custom system:");
         string input = Console.ReadLine();
 
-        // 1. Read and parse equations
+        // 1. read and parse
         ReadEquations(input, out Function[] equations);
 
-        // 2. Eval initial guess with one of known easy methods
+        // 2. eval initial guess
         var x = InitialGuess(equations);
         var f = EvalF(equations, x);
 
         Console.WriteLine($"initial guess: {string.Join(", ", x)}");
         Console.WriteLine($"initial residual: {f.L2Norm()}");
 
+        // сума поіхдних
+        bool shouldConverge = CheckConvergence(equations, x);
+        if (!shouldConverge) {
+            Console.WriteLine("convergence check not passed");
+        } else {
+            Console.WriteLine("convergence check passed");
+        }
+
         int iter = NewtonMethod(eps, maxIter, equations, ref x, ref f);
 
-        // 3. calculate residuals
+        // 3. residuals
         if (f.L2Norm() <= eps)
             Console.WriteLine($"solution found in {iter} iterations");
         else
